@@ -1,0 +1,15 @@
+{
+	"name": "dffedex",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b6c24e32-31a8-44c6-95a3-9c1a6012d3e7",
+		"tenantId": "662c6c49-be42-4035-9f2f-bd271cd102e2"
+	}
+}
