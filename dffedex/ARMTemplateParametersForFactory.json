@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "dffedex"
+		},
+		"LS_ADLS_accountKey": {
+			"value": ""
+		},
+		"LS_SQL_password": {
+			"value": ""
+		},
+		"LS_databricks_accessToken": {
+			"value": ""
+		},
+		"LS_ADLS_properties_typeProperties_url": {
+			"value": "https://stofedexdev.dfs.core.windows.net/"
+		},
+		"LS_SQL_properties_typeProperties_server": {
+			"value": "sqlfedexdev.database.windows.net"
+		},
+		"LS_SQL_properties_typeProperties_database": {
+			"value": "fedexdb"
+		},
+		"LS_SQL_properties_typeProperties_userName": {
+			"value": "fedexadmin"
+		},
+		"LS_databricks_properties_typeProperties_existingClusterId": {
+			"value": "0826-030634-zcfjyeg2"
+		}
+	}
+}
