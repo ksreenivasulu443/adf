@@ -165,9 +165,16 @@
 									]
 								},
 								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
+									"name": "UpdateCustomerHash",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "CopyCustomerFIle",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
 									"policy": {
 										"timeout": "0.12:00:00",
 										"retry": 0,
@@ -177,40 +184,93 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"storedProcedureName": "[[bronze].[usp_UpdateCustomerHash]"
 									},
-									"inputs": [
+									"linkedServiceName": {
+										"referenceName": "LS_SQL",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "LoadSilverCustomerClean",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
 										{
-											"referenceName": "DS_Bronze_Landing",
-											"type": "DatasetReference",
-											"parameters": {}
+											"activity": "UpdateCustomerHash",
+											"dependencyConditions": [
+												"Succeeded"
+											]
 										}
 									],
-									"outputs": [
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[silver].[usp_Load_Customer_Clean]"
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SQL",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "LoadSilverCurrent",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
 										{
-											"referenceName": "DS_Bronze_Landing",
-											"type": "DatasetReference",
-											"parameters": {}
+											"activity": "LoadSilverCustomerClean",
+											"dependencyConditions": [
+												"Succeeded"
+											]
 										}
-									]
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[silver].[usp_Load_Customer_Current]"
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SQL",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "LoadGoldSummary",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "LoadSilverCurrent",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[gold].[usp_Load_CustomerSummary]"
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SQL",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
@@ -225,7 +285,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Customer_Folder')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Customer_CSV')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Bronze_Landing')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Bronze_Landing')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL')]"
 			]
 		},
 		{
