@@ -161,7 +161,16 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[silver].[usp_Load_Customer_Clean]"
+								"storedProcedureName": "[silver].[usp_Load_Customer_Clean]",
+								"storedProcedureParameters": {
+									"FileName": {
+										"value": {
+											"value": "@item().Name",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "LS_SQL",
