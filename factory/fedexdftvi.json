@@ -1,0 +1,15 @@
+{
+	"name": "fedexdftvi",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c5c68c30-33b5-483c-9aad-ca5fe0a47679",
+		"tenantId": "662c6c49-be42-4035-9f2f-bd271cd102e2"
+	}
+}
