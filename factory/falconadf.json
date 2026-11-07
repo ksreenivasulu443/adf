@@ -1,0 +1,15 @@
+{
+	"name": "falconadf",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "14eefa08-adb8-4bd7-b229-2f52595bce12",
+		"tenantId": "662c6c49-be42-4035-9f2f-bd271cd102e2"
+	}
+}
