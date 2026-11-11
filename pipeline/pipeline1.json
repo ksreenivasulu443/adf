@@ -96,7 +96,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_Customer_CSV",
+									"referenceName": "DSCUSTOMERNEW",
 									"type": "DatasetReference",
 									"parameters": {
 										"FileName": {
@@ -112,6 +112,87 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "UpdateCustomerHash",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "CopyCustomerFIle",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[bronze].[usp_UpdateCustomerHash]"
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_FALCON_DB",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "LoadSilverCustomerClean",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "UpdateCustomerHash",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[silver].[usp_Load_Customer_Clean]"
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_FALCON_DB",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "LoadSilverCurrent",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "LoadSilverCustomerClean",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[silver].[usp_Load_Customer_Current]"
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_FALCON_DB",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
