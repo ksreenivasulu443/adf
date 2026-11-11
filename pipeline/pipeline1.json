@@ -97,7 +97,13 @@
 							"inputs": [
 								{
 									"referenceName": "DS_Customer_CSV",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
