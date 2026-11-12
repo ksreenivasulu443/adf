@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -32,7 +33,7 @@
 				}
 			},
 			{
-				"name": "LOOPCUSTOMERFILES",
+				"name": "LoopCustomerFiles",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -160,7 +161,15 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[silver].[usp_Load_Customer_Clean]"
+								"storedProcedureName": "[silver].[usp_Load_Customer_Clean]",
+								"storedProcedureParameters": {
+									"FileName": {
+										"value": {
+											"value": "@item().Name",
+											"type": "Expression"
+										}
+									}
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "LS_FALCON_DB",
