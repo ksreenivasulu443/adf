@@ -85,28 +85,8 @@
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
-							"inputs": [
-								{
-									"referenceName": "DS_Customer_CSV",
-									"type": "DatasetReference",
-									"parameters": {
-										"FileName": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
-								}
-							],
 							"outputs": [
 								{
 									"referenceName": "DS_Bronze_Landing",
