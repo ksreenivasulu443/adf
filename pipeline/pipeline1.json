@@ -202,6 +202,33 @@
 								"referenceName": "LS_FALCON_DB",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "QAValidation",
+							"type": "DatabricksSparkPython",
+							"dependsOn": [
+								{
+									"activity": "LoadSilverCurrent",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pythonFile": "/Workspace/Users/sreenivasulutokattubadi@gmail.com/taf_july_2026/runner.py"
+							},
+							"linkedServiceName": {
+								"referenceName": "AzureDatabricks1",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
